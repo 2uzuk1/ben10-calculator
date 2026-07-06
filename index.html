@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora do Ben 10</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="ben-10-icon.png" alt="logo">
+    </header>
+    <audio autoplay loop>
+        <source src="ben10_op.mp3" type="audio/mp3">
+    </audio>
+    <section>
+        <div class="calculator">
+            <input type="text" name="display" disabled id="display">
+            <div class="box-button">
+                <button class="btn btn-custom" onclick="clean()">C</button>
+                <button class="btn btn-custom" onclick="backspace()">&lt;</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('/')">/</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('*')">*</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('7')">7</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('8')">8</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('9')">9</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('-')">-</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('4')">4</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('5')">5</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('6')">6</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('+')">+</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('1')">1</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('2')">2</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('3')">3</button>
+                <button class="btn btn-zero btn-custom" onclick="insertToDisplay('0')">0</button>
+                <button class="btn btn-custom" onclick="insertToDisplay('.')">.</button>
+                <button class="btn btn-result btn-custom" onclick="result()">=</button>
+            </div>
+            <div class="sound">
+                <button class="btn btn-custom btn-audio" onclick="toggleAudio()">▶</button>
+            </div>
+        </div>
+    </section>
+    <footer>&copy; Guilherme Suzuki</footer>
+    <script src="script.js"></script>
+</body>
+</html>
