@@ -20,24 +20,24 @@
             <div class="box-button">
                 <button class="btn btn-top" onclick="clearDisplay()">C</button>
                 <button class="btn btn-top" onclick="backspace()">&lt;</button>
-                <button class="btn btn-top" onclick="insertToDisplay('/')">%</button>
-                <button class="btn btn-operators" onclick="insertToDisplay('*')">/</button>
-                <button class="btn btn-custom" onclick="insertToDisplay('7')">7</button>
-                <button class="btn btn-custom" onclick="insertToDisplay('8')">8</button>
-                <button class="btn btn-custom" onclick="insertToDisplay('9')">9</button>
-                <button class="btn btn-operators" onclick="insertToDisplay('-')">*</button>
-                <button class="btn btn-custom" onclick="insertToDisplay('4')">4</button>
-                <button class="btn btn-custom" onclick="insertToDisplay('5')">5</button>
-                <button class="btn btn-custom" onclick="insertToDisplay('6')">6</button>
-                <button class="btn btn-operators" onclick="insertToDisplay('+')">-</button>
-                <button class="btn btn-custom" onclick="insertToDisplay('1')">1</button>
-                <button class="btn btn-custom" onclick="insertToDisplay('2')">2</button>
-                <button class="btn btn-custom" onclick="insertToDisplay('3')">3</button>
-                <button class="btn btn-operators">+</button>
-                <button class="btn btn-custom">+/-</button>
-                <button class="btn btn-custom" onclick="insertToDisplay('0')">0</button>
-                <button class="btn btn-custom" onclick="insertToDisplay('.')">.</button>
-                <button class="btn btn-operators" onclick="result()">=</button>
+                <button class="btn btn-top" onclick="percent()">%</button>
+                <button class="btn btn-operators" onclick="chooseOp('/')">/</button>
+                <button class="btn btn-custom" onclick="digit('7')">7</button>
+                <button class="btn btn-custom" onclick="digit('8')">8</button>
+                <button class="btn btn-custom" onclick="digit('9')">9</button>
+                <button class="btn btn-operators" onclick="chooseOp('*')">*</button>
+                <button class="btn btn-custom" onclick="digit('4')">4</button>
+                <button class="btn btn-custom" onclick="digit('5')">5</button>
+                <button class="btn btn-custom" onclick="digit('6')">6</button>
+                <button class="btn btn-operators" onclick="chooseOp('-')">-</button>
+                <button class="btn btn-custom" onclick="digit('1')">1</button>
+                <button class="btn btn-custom" onclick="digit('2')">2</button>
+                <button class="btn btn-custom" onclick="digit('3')">3</button>
+                <button class="btn btn-operators" onclick="chooseOp('+')">+</button>
+                <button class="btn btn-custom" onclick="invertSign()">+/-</button>
+                <button class="btn btn-custom" onclick="digit('0')">0</button>
+                <button class="btn btn-custom" onclick="floatNumber()">.</button>
+                <button class="btn btn-operators" onclick="equal()">=</button>
             </div>
             <div class="sound">
                 <button class="btn btn-custom btn-audio" onclick="toggleAudio()">▶</button>
