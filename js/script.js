@@ -1,6 +1,10 @@
 function insertToDisplay(data) {
     const display = document.querySelector('#display')
-    if (display.value === 'Error') return 
+    if (display.value === 'Error') return
+    if (display.value === 'Infinity') {
+        display.value = 'Error'
+        return
+    }
     if (display.value === '' && data === '.') return
 
     const op = ['+', '-', '*', '/']
@@ -12,7 +16,7 @@ function insertToDisplay(data) {
     display.value += data
 }
 
-function clean(){
+function clearDisplay(){
     document.querySelector('#display').value = ""
 }
 
