@@ -15,7 +15,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-image: url('/assets/fundo.jpg');
+    background-image: url('../assets/fundo.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -53,9 +53,19 @@ section {
 
 .box-button {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-columns: 1fr;
     gap: .5rem;
+}
+
+#btn-open {
+    grid-column: 2;
+    grid-row: 6;
+}
+
+#btn-close {
+    grid-column: 3;
+    grid-row: 6;
 }
 
 button {

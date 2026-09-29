@@ -16,7 +16,7 @@
     </audio>
     <section>
         <div class="calculator">
-            <input type="text" name="display" disabled id="display">
+            <input type="text" id="display" readonly >
             <div class="box-button">
                 <button class="btn btn-top" onclick="clearDisplay()">C</button>
                 <button class="btn btn-top" onclick="backspace()">&lt;</button>
@@ -38,6 +38,8 @@
                 <button class="btn btn-custom" onclick="digit('0')">0</button>
                 <button class="btn btn-custom" onclick="floatNumber()">.</button>
                 <button class="btn btn-operators" onclick="equal()">=</button>
+                <button id="btn-open" class="btn btn-operators" onclick="openParen()">(</button>
+                <button id="btn-close" class="btn btn-operators" onclick="closeParen()">)</button>
             </div>
             <div class="sound">
                 <button class="btn btn-custom btn-audio" onclick="toggleAudio()">▶</button>
