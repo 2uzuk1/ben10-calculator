@@ -120,8 +120,8 @@ function calculate (a, b, operator) {
 
 // --- AUDIO ---
 function toggleAudio() {
-    let audio = document.querySelector('audio')
-    let btnAudio = document.querySelector('.btn-audio')
+    const audio = document.querySelector('audio')
+    const btnAudio = document.querySelector('.btn-audio')
 
     if (audio.paused) {
         audio.play()
