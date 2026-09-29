@@ -1,226 +1,117 @@
-// ------- VARIABLES ---------
+// --- VARIABLES ---
 const display = document.querySelector('#display')
-display.value = '0'
 
-let firstNumber = null
-let operator = null
-let waitingSecond = false
 let finishCalc = false
+let openCount = 0 // How many '(' are open whithot closing
+let tokens = []
+let pos = 0
 
+const LIMIT = 23
 
-const LIMIT = 15
+const operators = ['+', '-', '*', '/']
 
-// ------- NUMBERS -------
-function digit(number) {
-    if(display.value === 'Error' || finishCalc === true) {
-        clearDisplay()
+function lastChar() {
+    return display.value.slice(-1)
+}
+
+// --- TOKENIZER ---
+
+// Reads a number, a negated factor, or the value of an expression in parentheses.
+// It is the basic unit used by parseTerm.
+function parseFactor() {
+    if (tokens[pos] === '-') {
+        pos++
+        return -parseFactor()
     }
     
-    if (waitingSecond === true) {
-        display.value = number
-        waitingSecond = false
-        return
-    }
-
-    if (display.value.length >= LIMIT) {
-        return
-    }
-
-    if (display.value === '0') {
-        display.value = number
-    } else {
-        display.value += number
-    }
+    if (tokens[pos] === '(') {
+        pos++
+        const value = parseExpression()
+        if (tokens[pos] !== ')') throw new Error ('Missing )')
+        pos++
+        return value
 }
 
-function floatNumber () {
-    if (display.value === 'Error' || finishCalc === true) {
-        clearDisplay()
-    }
-
-    if (waitingSecond === true) {
-        display.value = '0.'
-        waitingSecond = false
-        return
-    }
-
-    if (display.value.includes('.') === false) {
-        display.value += '.'
-    }
+    const value = parseFloat(tokens[pos])
+    pos++
+    return value
 }
 
-// ------- OPERATORS -------
-function chooseOp (op) {
-    if (display.value === 'Error') {
-        return
+// Reads factors joined by multiplication or division.
+// Calls parseFactor to read each value.
+function parseTerm() { // Returns the value of 
+    let value = parseFactor()
+    
+    while (tokens[pos] === '*' || tokens[pos] === '/') {
+        const op = tokens[pos]
+        pos++
+        const right = parseFactor()
+        
+        value = calculate(value, right, op)
     }
+    
+    return value
+}
 
-    finishCalc = false
-
-    if(operator !== null && waitingSecond === true) {
-        operator = op
-        return
+// Reads terms joined by addition or subtraction.
+// Calls parseTerm to preserve the precedence of * and /.
+function parseExpression() {
+    let value = parseTerm()
+    
+    while (tokens[pos] === '+' || tokens[pos] === '-') {
+        const op = tokens[pos]
+        pos++
+        const right = parseTerm()
+        
+        value = calculate(value, right, op)
     }
+    
+    return value
+}
 
-    let displayNumber = parseFloat(display.value)
+function tokenize(text) {
+    let tokens = []
+    let actualNum = ''
 
-    if (operator === null) {
-        firstNumber = displayNumber
-    } else {
-        let result = calculate(firstNumber, displayNumber, operator)
+    for (let i = 0; i < text.length ;i++) {
+        let char = text[i]
 
-        if (result === 'Error') {
-            showError()
-            return
+        if (char >= '0' && char <= '9' || char === '.') {
+            actualNum += char
+        } else {
+            if (actualNum !== '') {
+                tokens.push(actualNum)
+                actualNum = ''
+            }
+            tokens.push(char)   
         }
-
-        firstNumber = result
-        display.value = roundResult(result)
     }
 
-    if (operator === '-') {
-        display.value = '-' + display.value
+    if (actualNum !== '') {
+        tokens.push(actualNum)
     }
 
-    operator = op
-    waitingSecond = true
+    return tokens
 }
 
-function calculate (a, b, op) {
-    if (op === '+') {
-        return a + b
-    }
-
-    if (op === '-') {
-        return a - b
-    }
-
-    if (op === '*') {
-        return a * b
-    }
-
-    if (op === '/') {
-        if (b === 0) {
-            return 'Error'
-        }
-        return a / b
-    }
+function evaluate(text) {
+    tokens = tokenize(text)
+    pos = 0
+    const result = parseExpression()
+    if (pos < tokens.length) throw new Error('Invalid')
+    return result
 }
 
-function roundResult(number) {
-    let rounded = Number(number.toFixed(8))
-    return String(rounded) 
-}
-
-// ------- RESULTS -------
-function equal() {
-    if (display.value === 'Error' || operator === null) {
-        return
-    }
-
-    let secondNumber 
-    if (waitingSecond === true) {
-        secondNumber = firstNumber
-    } else {
-        secondNumber = parseFloat(display.value)
-    }
-
-    let result = calculate (firstNumber, secondNumber, operator) 
-
-    if (result === 'Error') {
-        showError()
-        return
-    }
-
-    display.value = roundResult(result)
-    firstNumber = result
-    operator = null
-    waitingSecond = false
-    finishCalc = true
-}
-
-function showError () {
-    clearDisplay()
-    display.value = 'Error'
-}
-
-// ------- OTHERS -------
-function invertSign() {
-    if (display.value === 'Error' || display.value === '0' || waitingSecond === true) {
-        return
-    }
-
-    if (display.value.startsWith('-')) {
-        display.value = display.value.slice(1)
-    } else {
-        display.value = '-' + display.value
-    }
-}
-
-function percent() {
-    if (display.value === 'Error' || waitingSecond === true) {
-        return
-    }
-    let number = parseFloat(display.value)
-    display.value = roundResult(number / 100)
-}
-
-function backspace() {
-    if (display.value === 'Error' || finishCalc === true || waitingSecond === true) {
-        clearDisplay()
-        return
-    }
-
-    if (display.value.length > 1) {
-        display.value = display.value.slice(0, -1)
-    } else {
-        display.value = '0'
-    }
-}
-
-function clearDisplay() {
-    display.value = '0'
-    firstNumber = null
-    operator = null
-    waitingSecond = false
-    finishCalc = false
-}
-
-// ------- KEYBOARD -------
-document.addEventListener('keydown', function(event) {
-    let pressedKey = event.key
-
-    if (pressedKey >= '0' && pressedKey <= '9'){
-        digit(pressedKey)
-    } else if (pressedKey === '.') {
-        floatNumber()
-    } else if (pressedKey === '+' || pressedKey === '-' || pressedKey === '*') {
-        chooseOp(pressedKey)
-    } else if (pressedKey === '/') {
-        event.preventDefault()
-        chooseOp(pressedKey)
-    } else if (pressedKey === 'Enter' || pressedKey === '=') {
-        event.preventDefault()
-        equal()
-    } else if (pressedKey === 'Backspace') {
-        backspace()
-    } else if (pressedKey === '%') {
-        percent()
-    } else if (pressedKey === 'Escape') {
-        clearDisplay()
-    }
-})
-
-// ------- AUDIO --------
-function toggleAudio() {
-    let audio = document.querySelector('audio')
-    let btnAudio = document.querySelector('.btn-audio')
-
-    if (audio.paused) {
-        audio.play()
-        btnAudio.textContent = '⏸'
-    } else {
-        audio.pause()
-        btnAudio.textContent = '▶'
+// --- EXPRESSION ---
+function calculate (a, b, operator) {
+    if (operator === '+') return a + b
+    
+    if (operator === '-') return a - b
+    
+    if (operator === '*') return a * b
+    
+    if (operator === '/') {
+        if (b === 0) throw new Error('Division by zero')
+            return a / b
     }
 }
