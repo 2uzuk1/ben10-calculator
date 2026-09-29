@@ -124,10 +124,10 @@ function toggleAudio() {
     let btnAudio = document.querySelector('.btn-audio')
 
     if (audio.paused) {
-        audio.play
+        audio.play()
         btnAudio.textContent = '⏸'
     } else {
-        audio.pause
+        audio.pause()
         btnAudio.textContent = '▶'
     }
 }
