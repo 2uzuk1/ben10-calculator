@@ -69,6 +69,7 @@ function parseExpression() {
     return value
 }
 
+// Splits the input expression into tokens for evaluation.
 function tokenize(text) {
     let tokens = []
     let actualNum = ''
@@ -94,6 +95,7 @@ function tokenize(text) {
     return tokens
 }
 
+// Evaluates an arithmetic expression and returns its result.
 function evaluate(text) {
     tokens = tokenize(text)
     pos = 0
@@ -113,5 +115,19 @@ function calculate (a, b, operator) {
     if (operator === '/') {
         if (b === 0) throw new Error('Division by zero')
             return a / b
+    }
+}
+
+// --- AUDIO ---
+function toggleAudio() {
+    let audio = document.querySelector('audio')
+    let btnAudio = document.querySelector('.btn-audio')
+
+    if (audio.paused) {
+        audio.play
+        btnAudio.textContent = '⏸'
+    } else {
+        audio.pause
+        btnAudio.textContent = '▶'
     }
 }
