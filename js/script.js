@@ -1,5 +1,6 @@
 // --- VARIABLES ---
 const display = document.querySelector('#display')
+display.value = ''
 
 let finishCalc = false
 let openCount = 0 // How many '(' are open whithot closing
@@ -105,6 +106,62 @@ function evaluate(text) {
 }
 
 // --- EXPRESSION ---
+function digit(number) {
+    if (finishCalc || display.value === 'Error') clearDisplay()
+    
+    if (display.value.length >= LIMIT) return
+
+    display.value += number
+}
+
+function floatNumber() {
+    if (finishCalc || display.value === 'Error') clearDisplay()
+    
+    if (display.value.length >= LIMIT || lastChar() === '.') return
+    
+    const match = display.value.match(/[0-9.]*$/)[0]
+
+    if (match.includes('.')) return
+    
+    if (match === '') {
+        display.value += '0.'
+    } else {
+        display.value += '.'
+    }
+}
+
+function chooseOp(op) {
+    if (display.value === 'Error') return
+    finishCalc = false
+
+    const last = lastChar()
+
+    if (last === '') {
+        if (op === '-') display.value += op
+        return
+    }
+
+    if (operators.includes(last)) {
+        const beforeLast = display.value.slice(-2,-1)
+
+        if (last === '-' && (beforeLast === '*' || beforeLast === '/')) {
+            if (op === '-') return
+
+            display.value = display.value.slice(0, -2) + op
+            return
+        }
+
+        if (op === '-' && (last === '*' || last === '/')) {
+            display.value += op
+        } else {
+            display.value = display.value.slice(0, -1) + op
+        }
+        return
+    }
+
+    display.value += op
+}
+
 function calculate (a, b, operator) {
     if (operator === '+') return a + b
     
@@ -116,6 +173,17 @@ function calculate (a, b, operator) {
         if (b === 0) throw new Error('Division by zero')
             return a / b
     }
+}
+// --- OTHER ---
+function clearDisplay() {
+    display.value = ''
+    finishCalc = false
+    openCount = 0
+}
+
+function backspace() {
+    display.value = display.value.slice(0, -1)
+    return
 }
 
 // --- AUDIO ---
