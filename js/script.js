@@ -15,7 +15,7 @@ function lastChar() {
     return display.value.slice(-1)
 }
 
-// --- TOKENIZER ---
+// --- PARSER ---
 
 // Reads a number, a negated factor, or the value of an expression in parentheses.
 // It is the basic unit used by parseTerm.
@@ -69,6 +69,8 @@ function parseExpression() {
     
     return value
 }
+
+// --- TOKENIZER ---
 
 // Splits the input expression into tokens for evaluation.
 function tokenize(text) {
@@ -212,9 +214,13 @@ function closeParen() {
     display.value += ')'
 }
 
+function percent() {
+    const match = display.value.match(/[0-9.]*$/)[0]
+    if (display.value === 'Error' || match === '') return
 
-function equal() {
-    if (display.value === '' || openCount > 0 || display.value === 'Error' || operators.includes(lastChar())) return
+    const before = display.value.slice(0, display.value.length - match.length)
+    display.value = before + (parseFloat(match) / 100)
+}
 
 function equal() {
     if (display.value === '' || openCount > 0 || display.value === 'Error') return
