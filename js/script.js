@@ -208,7 +208,7 @@ function closeParen() {
 
 
 function equal() {
-    if (display.value === '' || openCount > 0 || display.value === 'Error') return
+    if (display.value === '' || openCount > 0 || display.value === 'Error' || operators.includes(lastChar())) return
 
     try {
         const result = evaluate(display.value)
