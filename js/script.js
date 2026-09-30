@@ -202,6 +202,20 @@ function closeParen() {
     display.value += ')'
 }
 
+
+function equal() {
+    if (display.value === '' || openCount > 0 || display.value === 'Error') return
+
+    try {
+        const result = evaluate(display.value)
+        display.value = roundResult(result)
+        finishCalc = true
+        openCount = 0
+    } catch {
+        showError()
+    }
+}
+
 // --- OTHER ---
 function clearDisplay() {
     display.value = ''
@@ -219,6 +233,16 @@ function backspace() {
     if (lastChar() === ')') openCount++
 
     display.value = display.value.slice(0, -1)
+}
+
+function showError() {
+    clearDisplay()
+    display.value = 'Error'
+}
+
+function roundResult(number) {
+    let rounded = Number(number.toFixed(8))
+    return String(rounded)
 }
 
 // --- AUDIO ---
