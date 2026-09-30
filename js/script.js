@@ -220,6 +220,23 @@ function equal() {
     }
 }
 
+function invertSign() {
+    if (display.value === 'Error' || lastChar() === '.') return
+    const negMatch = display.value.match(/\(-([0-9.]+)\)$/)
+
+    if (negMatch) {
+        const before = display.value.slice(0, display.value.length - negMatch[0].length)
+        display.value = before + negMatch[1]
+        return
+    }
+
+    const match = display.value.match(/[0-9.]*$/)[0]
+    if (match === '') return
+
+    const before = display.value.slice(0, display.value.length - match.length)
+    display.value = before + '(-' + match + ')'
+}
+
 // --- OTHER ---
 function clearDisplay() {
     display.value = ''
