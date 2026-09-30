@@ -216,7 +216,11 @@ function closeParen() {
 function equal() {
     if (display.value === '' || openCount > 0 || display.value === 'Error' || operators.includes(lastChar())) return
 
+function equal() {
+    if (display.value === '' || openCount > 0 || display.value === 'Error') return
+    
     try {
+        if (operators.includes(lastChar())) throw new Error('Not a Number')
         const result = evaluate(display.value)
         display.value = roundResult(result)
         finishCalc = true
