@@ -276,6 +276,35 @@ function roundResult(number) {
     return String(rounded)
 }
 
+// --- KEYBOARD ---
+document.addEventListener('keydown', function(event) {
+    let key = event.key
+
+    if (key >= '0' && key <= '9') {
+        digit(key)
+    } else if (key === '.') {
+        floatNumber()
+    } else if (key === '+' || key === '-' || key === '*') {
+        chooseOp(key)
+    } else if (key === '/') {
+        event.preventDefault()
+        chooseOp(key)
+    } else if (key === '(') {
+        openParen()
+    } else if (key === ')') {
+        closeParen()
+    } else if (key === 'Enter' || key === '=') {
+        event.preventDefault()
+        equal()
+    } else if (key === 'Backspace') {
+        backspace()
+    } else if (key === 'Escape') {
+        clearDisplay()
+    } else if (key === '%') {
+        percent()
+    }
+})
+
 // --- AUDIO ---
 function toggleAudio() {
     const audio = document.querySelector('audio')
