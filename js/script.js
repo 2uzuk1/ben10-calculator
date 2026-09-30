@@ -111,7 +111,13 @@ function digit(number) {
     
     if (display.value.length >= LIMIT || lastChar() === ')') return
 
-    display.value += number
+    const match = display.value.match(/[0-9.]*$/)[0]
+
+    if (match === '0') {
+        display.value = display.value.slice(0, -1) + number
+    } else {
+        display.value += number
+    }
 }
 
 function floatNumber() {
