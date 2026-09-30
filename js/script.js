@@ -141,8 +141,12 @@ function chooseOp(op) {
         return
     }
 
+    if (last === '(' && op !== '-') return
+
     if (operators.includes(last)) {
         const beforeLast = display.value.slice(-2,-1)
+        
+        if (beforeLast === '' || beforeLast === '(') return
 
         if (last === '-' && (beforeLast === '*' || beforeLast === '/')) {
             if (op === '-') return
