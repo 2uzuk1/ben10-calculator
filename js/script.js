@@ -109,7 +109,7 @@ function evaluate(text) {
 function digit(number) {
     if (finishCalc || display.value === 'Error') clearDisplay()
     
-    if (display.value.length >= LIMIT) return
+    if (display.value.length >= LIMIT || lastChar() === ')') return
 
     display.value += number
 }
@@ -117,7 +117,7 @@ function digit(number) {
 function floatNumber() {
     if (finishCalc || display.value === 'Error') clearDisplay()
     
-    if (display.value.length >= LIMIT || lastChar() === '.') return
+    if (display.value.length >= LIMIT || lastChar() === '.' || lastChar() === ')') return
     
     const match = display.value.match(/[0-9.]*$/)[0]
 
@@ -131,7 +131,7 @@ function floatNumber() {
 }
 
 function chooseOp(op) {
-    if (display.value === 'Error') return
+    if (display.value === 'Error' || lastChar() === '.') return
     finishCalc = false
 
     const last = lastChar()
@@ -174,6 +174,34 @@ function calculate (a, b, operator) {
             return a / b
     }
 }
+
+function openParen() {
+    if (display.value === 'Error' || finishCalc === true) {
+        clearDisplay()
+    } 
+
+    if (display.value.length >= LIMIT) return
+
+    let last = lastChar()
+
+    if (last === '' || operators.includes(last) || last === '(') {
+        openCount++
+        display.value += '('
+    }
+}
+
+function closeParen() {
+    let last = lastChar()
+
+    if (display.value.length >= LIMIT) return
+
+    if (openCount === 0) return
+    if (operators.includes(last) || last === '(' || last === '.') return
+
+    openCount--
+    display.value += ')'
+}
+
 // --- OTHER ---
 function clearDisplay() {
     display.value = ''
@@ -182,8 +210,15 @@ function clearDisplay() {
 }
 
 function backspace() {
+    if (display.value === 'Error' || finishCalc === true) {
+        clearDisplay()
+        return
+    }
+
+    if (lastChar() === '(') openCount--
+    if (lastChar() === ')') openCount++
+
     display.value = display.value.slice(0, -1)
-    return
 }
 
 // --- AUDIO ---
