@@ -1,0 +1,14 @@
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
+
+# Node (se algum dia usar npm/live-server)
+node_modules/
+
+# Arquivos de teste/rascunho seus
+*-old.js
+*-backup.js
